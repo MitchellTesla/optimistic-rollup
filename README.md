@@ -1,29 +1,38 @@
 # optimistic-rollup
 Smart contracts for the optimistic rollup part of the Celer sidechain
 
-
 Library of smart-contracts for the optimistic rollup part of the Celer sidechain. Note that this is the skeleton code showing the general idea and is not meant to be used in production.
+
 
 Overview of the Celer Sidechain
 The various roles in the Celer Sidechain system consist of:
+
 
 Users
 Sidechain block producers
 Sidechain block validators
 Rollup transaction aggregators
 Rollup transaction validators
+
+
+
 Users interact with other users and dApps on the Celer sidechain much like how they interact with the Ethereum mainchain, except that they will enjoy short block confirmation time and cheap transaction fees payable in the form of CELR tokens. The fees will be used to reward the other roles in the system.
 
 Sidechain block producers run a small group of modified Ethereum nodes under a fast Proof-of-Authority (PoA) consensus. They process general EVM transactions and produce sidechain blocks. They will be required to stake a significant number of CELR tokens and will need to provide high availability and reliability.
 
 Sidechain block validators are a relatively large group of nodes that also stake CELR tokens. Their job is to watch and validate the sidechain blocks as they are produced. Every few blocks, they reach consensus on a checkpoint of multiple blocks via a Proof-of-Stake (PoS) consensus. Sidechain block validators provide finality for general EVM transactions. They are also responsible for the governance of the block producers and will vote on slashing them in case of malicious behavior.
 
-Rollup transaction aggregators listen to the rollup-related contract events emitted on the sidechain. They build rollup transactions from the events and submit rollup blocks to the mainchain periodically. Note that we made the design choice of letting the aggregators process contract events instead of accepting transactions from users directly to provide seamless user and developer experience. Any node that has placed a certain number of CELR tokens as a bond can operate as an aggregator. Only one aggregator is needed (and allowed) to submit each rollup block and there is no need for consensus among them. Therefore, we have more flexibility in choosing the aggregator. Initially, we can simply do a round-robin selection among the validators. In the future, we could incorporate an even more decentralized aggregator pool via mechanisms such as a Proof-of-Burn (PoB) auction. The auction picks the aggregator that is willing to burn the most number of CELR tokens, which incentivizes honesty and non-censorship and reduces the possibility of spamming.
+Rollup transaction aggregators listen to the rollup-related contract events emitted on the sidechain. They build rollup transactions from the events and submit rollup blocks to the mainchain periodically. Note that we made the design choice of letting the aggregators process contract events instead of accepting transactions from users directly to provide seamless user and developer experience. Any node that has placed a certain number of CELR tokens as a bond can operate as an aggregator. 
+
+Only one aggregator is needed (and allowed) to submit each rollup block and there is no need for consensus among them. Therefore, we have more flexibility in choosing the aggregator. Initially, we can simply do a round-robin selection among the validators. In the future, we could incorporate an even more decentralized aggregator pool via mechanisms such as a Proof-of-Burn (PoB) auction. The auction picks the aggregator that is willing to burn the most number of CELR tokens, which incentivizes honesty and non-censorship and reduces the possibility of spamming.
 
 Rollup transaction validators watch the submitted rollup blocks and try to find invalid state roots in them. Upon a successful challenge, half of the malicious aggregator's bond is burnt and the other half goes to the validator as a bounty. Any aggregator that built on top of the invalid block will also be slashed, and the sidechain is rolled back to before the invalid block.
 
+
+
 Optimistic Rollup for ERC-20 Tokens
 The Celer Sidechain provides optimistic rollup for ERC-20 assets mapped from the mainchain. Any mainchain ERC-20 token can be mapped onto the Celer sidechain via the token registry contracts. Upon the completion of the mapping transaction, one of the sidechain validators will deploy a modified ERC-20 contract on the sidechain.
+
 
 Note that we modified the standard ERC-20 contract to emit necessary data for rollup. In particular, we changed the transfer() function to require an extra signature parameter for rollup fraud proofs. The contract also tracks nonce for each account to prevent double spending.
 
