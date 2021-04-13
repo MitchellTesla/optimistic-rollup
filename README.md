@@ -1,7 +1,7 @@
 # optimistic-rollup
 Smart contracts for the optimistic rollup part of the Celer sidechain
 
-Library of smart-contracts for the optimistic rollup part of the Celer sidechain. Note that this is the skeleton code showing the general idea and is not meant to be used in production.
+Note that this is the skeleton code showing the general idea and is not meant to be used in production.
 
 
 Overview of the Celer Sidechain
@@ -27,7 +27,6 @@ Rollup transaction aggregators listen to the rollup-related contract events emit
 Only one aggregator is needed (and allowed) to submit each rollup block and there is no need for consensus among them. Therefore, we have more flexibility in choosing the aggregator. Initially, we can simply do a round-robin selection among the validators. In the future, we could incorporate an even more decentralized aggregator pool via mechanisms such as a Proof-of-Burn (PoB) auction. The auction picks the aggregator that is willing to burn the most number of CELR tokens, which incentivizes honesty and non-censorship and reduces the possibility of spamming.
 
 Rollup transaction validators watch the submitted rollup blocks and try to find invalid state roots in them. Upon a successful challenge, half of the malicious aggregator's bond is burnt and the other half goes to the validator as a bounty. Any aggregator that built on top of the invalid block will also be slashed, and the sidechain is rolled back to before the invalid block.
-
 
 
 Optimistic Rollup for ERC-20 Tokens
