@@ -1,4 +1,7 @@
 # Smart contracts for the optimistic rollup 
+<p align="center">
+  <img src="MTeslaEthereumlogo.png" alt="demo" />
+</p>
 # Notice 
 This is the skeleton code showing the general idea and is not meant to be used in production.
 
