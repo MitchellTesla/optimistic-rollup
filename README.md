@@ -1,5 +1,5 @@
-# Smart contracts for the optimistic rollup part of the Celer sidechain
-
+# Smart contracts for the optimistic rollup 
+part of the Celer sidechain
 # Notice 
 This is the skeleton code showing the general idea and is not meant to be used in production.
 
