@@ -1,20 +1,25 @@
-# optimistic-rollup
-Smart contracts for the optimistic rollup part of the Celer sidechain
+# Smart contracts for the optimistic rollup 
+<p align="center">
+  <img src="MTeslaEthereumlogo.png" alt="demo" />
+</p>
 
-Library of smart-contracts for the optimistic rollup part of the Celer sidechain. Note that this is the skeleton code showing the general idea and is not meant to be used in production.
+# Notice 
 
+This is the skeleton code showing the general idea and is not meant to be used in production.
 
-Overview of the Celer Sidechain
+# Overview of the Celer Sidechain
 The various roles in the Celer Sidechain system consist of:
 
-
-Users
+# Users
 Sidechain block producers
+
 Sidechain block validators
+
 Rollup transaction aggregators
+
 Rollup transaction validators
 
-
+# Description
 
 Users interact with other users and dApps on the Celer sidechain much like how they interact with the Ethereum mainchain, except that they will enjoy short block confirmation time and cheap transaction fees payable in the form of CELR tokens. The fees will be used to reward the other roles in the system.
 
@@ -29,19 +34,29 @@ Only one aggregator is needed (and allowed) to submit each rollup block and ther
 Rollup transaction validators watch the submitted rollup blocks and try to find invalid state roots in them. Upon a successful challenge, half of the malicious aggregator's bond is burnt and the other half goes to the validator as a bounty. Any aggregator that built on top of the invalid block will also be slashed, and the sidechain is rolled back to before the invalid block.
 
 
+# Optimistic Rollup for ERC-20 Tokens
 
-Optimistic Rollup for ERC-20 Tokens
 The Celer Sidechain provides optimistic rollup for ERC-20 assets mapped from the mainchain. Any mainchain ERC-20 token can be mapped onto the Celer sidechain via the token registry contracts. Upon the completion of the mapping transaction, one of the sidechain validators will deploy a modified ERC-20 contract on the sidechain.
 
 
-Note that we modified the standard ERC-20 contract to emit necessary data for rollup. In particular, we changed the transfer() function to require an extra signature parameter for rollup fraud proofs. The contract also tracks nonce for each account to prevent double spending.
+# Note 
 
-The state storage in the rollup chain tracks the balances and nonces for the list of tokens owned by each account. We have implemented three types of state transitions: deposit, withdrawal and transfer.
+We modified the standard ERC-20 contract to emit necessary data for rollup. In particular, we changed the transfer() function to require an extra signature parameter for rollup fraud proofs. The contract also tracks nonce for each account to prevent double spending.
 
-A deposit transition is initiated when a user deposits into the deposit / withdraw manager contract on the mainchain. One of the sidechain validators will collect more than 2/3 votes from all the validators and submit a deposit transaction on the sidechain to reflect the state change on the mainchain. Note that we defer to the PoS validators to synchronize the deposits instead of modifying the state roots on mainchain directly. We made this small trade-off about security to allow easier sequencing of transactions, to avoid having to pause token transfers, and to provide higher deposit throughput.
+# The state storage 
 
-A withdrawal transition is initiated by the user on the sidechain to reduce the balance of a token owned by the user. The reduced amount is burnt on the sidechain. After the rollup block containing the withdrawal transition is submitted to the mainchain and the challenge period has passed, the withdrawal is finalized. Now the user can submit a withdrawal transaction to the deposit / withdraw manager contract on the mainchain to claim the funds.
+In the rollup chain tracks the balances and nonces for the list of tokens owned by each account. We have implemented three types of state transitions: deposit, withdrawal and transfer.
 
-A transfer transition simply reduces the balance of the sender and increases that of the recipient.
+# A deposit transition 
+
+Initiated when a user deposits into the deposit / withdraw manager contract on the mainchain. One of the sidechain validators will collect more than 2/3 votes from all the validators and submit a deposit transaction on the sidechain to reflect the state change on the mainchain. Note that we defer to the PoS validators to synchronize the deposits instead of modifying the state roots on mainchain directly. We made this small trade-off about security to allow easier sequencing of transactions, to avoid having to pause token transfers, and to provide higher deposit throughput.
+
+# A withdrawal transition 
+
+Initiated by the user on the sidechain to reduce the balance of a token owned by the user. The reduced amount is burnt on the sidechain. After the rollup block containing the withdrawal transition is submitted to the mainchain and the challenge period has passed, the withdrawal is finalized. Now the user can submit a withdrawal transaction to the deposit / withdraw manager contract on the mainchain to claim the funds.
+
+# A transfer transition 
+
+Simply reduces the balance of the sender and increases that of the recipient.
 
 Currently, a part of our rollup implementation is modified from the Unipig demo by the Plasma Group. We are actively looking into technologies like the Optimistic Virtual Machine (OVM) and intend to support generalized optimistic rollup for all types of smart contracts in the future.
