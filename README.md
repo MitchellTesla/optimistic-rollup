@@ -11,13 +11,13 @@ This is the skeleton code showing the general idea and is not meant to be used i
 The various roles in the Celer Sidechain system consist of:
 
 # Users
-Sidechain block producers
+- Sidechain block producers
 
-Sidechain block validators
+- Sidechain block validators
 
-Rollup transaction aggregators
+- Rollup transaction aggregators
 
-Rollup transaction validators
+- Rollup transaction validators
 
 # Description
 
