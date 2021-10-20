@@ -5,7 +5,7 @@
 
 # Notice 
 
-This is the skeleton code showing the general idea and is not meant to be used in production.
+** This is the skeleton code showing the general idea and is not meant to be used in production. **
 
 # Overview of the Celer Sidechain
 The various roles in the Celer Sidechain system consist of:
